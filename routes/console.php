@@ -17,3 +17,15 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('dodaj', function (){
+
+
+//    factory(\App\Followee::class)->create();
+});
+
+Artisan::command('ispisi', function (){
+
+//    dd(\App\Followee::all()->toArray());
+
+});
