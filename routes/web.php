@@ -17,6 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['middleware' => ['auth']], function (){
+    Route::resource('repositories','RepositoryController');
+    Route::get('/explore','ExploreController@index');
+
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
