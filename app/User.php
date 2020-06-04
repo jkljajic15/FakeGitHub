@@ -40,4 +40,17 @@ class User extends Authenticatable
     public function repositories(){
         return $this->hasMany(Repository::class);
     }
+
+    public function starredRepositories(){
+        return $this->belongsToMany(Repository::class,
+            'starred_repositories', 'user_id', 'repository_id');
+    }
+
+    public function followers(){
+        return $this->hasMany(Follower::class);
+    }
+
+    public function followees(){
+        return $this->hasMany(Followee::class);
+    }
 }

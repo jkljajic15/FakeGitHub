@@ -11,4 +11,8 @@ class Repository extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function starredRepositories(){
+        return $this->belongsToMany(User::class, 'starred_repositories');
+    }
 }

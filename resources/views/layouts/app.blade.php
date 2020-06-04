@@ -40,6 +40,18 @@
 
                             <a class="nav-link" href="/explore">Expolore</a>
                         </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="/starred-repositories">Starred Repositories</a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="/followers">Followers</a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="/following">Following</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
