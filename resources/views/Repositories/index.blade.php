@@ -13,10 +13,18 @@
                                 @if($repository->user_id == Auth::id())
 
                                     <li class="list-group-item list-group-item-action">
+
+
                                         <a href="repositories/{{$repository->id}}">{{$repository->name}}</a>
+                                        <ul class="navbar-nav float-right">
+                                            <li class="nav-item nav">
+                                                <a href="{{url("/repositories/$repository->id/issues")}}" class="nav-link ">Issues</a>
+                                            </li>
+                                        </ul>
                                         <p>
                                             {{$repository->description}}
                                         </p>
+
                                         {{--todo  pagination--}}
                                     </li>
                                 @endif

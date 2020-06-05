@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRepositoriesTable extends Migration
+class CreateIssuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateRepositoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('repositories', function (Blueprint $table) {
+        Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description'); //alter
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('repository_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->text('body');
+            $table->enum('status', ['open','closed']);
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateRepositoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('repositories');
+        Schema::dropIfExists('issues');
     }
 }

@@ -12,6 +12,9 @@
                             @foreach($repositories as $repository)
 
                                     <li class="list-group-item list-group-item-action">
+
+
+
                                         <a href="repositories/{{$repository->id}}">{{$repository->name}}</a>
                                         <button class="btn btn-lg btn-outline-primary  float-right ">
                                             <svg class="bi bi-star" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -22,6 +25,12 @@
                                         <p>
                                             {{$repository->description}}
                                         </p>
+
+                                        <ul class="navbar-nav ">
+                                            <li class="nav-item">
+                                                <a href="{{url("/repositories/$repository->name/issues")}}" class="nav-link">Issues</a>
+                                            </li>
+                                        </ul>
                                         {{--todo star functionality,  pagination--}}
                                     </li>
                             @endforeach

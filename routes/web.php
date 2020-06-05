@@ -47,8 +47,10 @@ Route::group(['middleware' => ['auth']], function (){
             array_push($followees, User::find($followee->followee_id));
         }
 
-        return view('following', ['followees' => $followees]);
+        return view('/following', ['followees' => $followees]);
     });
+
+    Route::resource('repositories.issues', 'IssueController')->shallow()->except(['destroy']);
 });
 
 Auth::routes();

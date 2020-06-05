@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRepositoriesTable extends Migration
+class CreateIssueCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateRepositoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('repositories', function (Blueprint $table) {
+        Schema::create('issue__comments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description'); //alter
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('issue_id')->constrained();
+            $table->text('body');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateRepositoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('repositories');
+        Schema::dropIfExists('issue__comments');
     }
 }

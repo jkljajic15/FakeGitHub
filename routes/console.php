@@ -27,8 +27,11 @@ Artisan::command('dodaj', function (){
 //    DB::insert('insert into starred_repositories (user_id, repository_id) values(?,?)',[6,1]);
 //    DB::insert('insert into followers (user_id, follower_id) values(?,?)',[6,1]);
 //    DB::insert('insert into followers (user_id, follower_id) values(?,?)',[6,4]);
-    DB::insert('insert into followees (user_id, followee_id) values(?,?)',[6,1]);
-    DB::insert('insert into followees (user_id, followee_id) values(?,?)',[6,4]);
+//    DB::insert('insert into followees (user_id, followee_id) values(?,?)',[6,1]);
+//    DB::insert('insert into followees (user_id, followee_id) values(?,?)',[6,4]);
+
+//    factory(\App\Issue::class,2)->create();
+//    factory(\App\Issue_Comment::class,3)->create();
 });
 
 Artisan::command('ispisi', function (){
