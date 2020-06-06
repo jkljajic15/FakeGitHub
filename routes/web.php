@@ -1,7 +1,9 @@
 <?php
 
+use App\Issue_Comment;
 use App\Repository;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +33,7 @@ Route::group(['middleware' => ['auth']], function (){
         ]);
     });
     Route::get('/followers', function (){
+        // todo refactor
         $user = User::find(Auth::id());
         $followers = [];
         foreach ($user->followers as $follower){
@@ -39,8 +42,8 @@ Route::group(['middleware' => ['auth']], function (){
 
         return view('followers', ['followers' => $followers]);
     });
-
     Route::get('/following', function (){
+        //todo refactor
         $user = User::find(Auth::id());
         $followees = [];
         foreach ($user->followees as $followee){
@@ -49,10 +52,18 @@ Route::group(['middleware' => ['auth']], function (){
 
         return view('/following', ['followees' => $followees]);
     });
-
-    Route::resource('repositories.issues', 'IssueController')->shallow()->except(['destroy']);
+    Route::resource('repositories.issues', 'IssueController')->shallow()->only(['index', 'create', 'store', 'show', 'update']);
+    Route::post('/issue-comments', function (){
+        request()->validate(['body' => 'required']);
+        Issue_Comment::create([
+            'user_id' => Auth::id(),
+            'issue_id'=> request('issue_id'),
+            'body' => request('body')
+        ]);
+        return redirect("/issues/". request('issue_id'));
+    });
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home'); //todo fix
