@@ -26,11 +26,20 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth']], function (){
     Route::resource('repositories','RepositoryController');
     Route::get('/explore','ExploreController@index');
+    Route::post('/explore/{repository}','ExploreController@store');
+    Route::delete('/explore/{repository}','ExploreController@destroy');
     Route::get('/starred-repositories', function (){
         $user = User::find(Auth::id());
         return view('starred_repositories', [
             'repositories' => $user->starredRepositories
         ]);
+    });
+    Route::delete('/starred-repositories/{repository}', function (Repository $repository){
+        DB::table('starred_repositories')
+            ->where('repository_id', $repository->id)
+            ->where('user_id', Auth::id())
+            ->delete();
+        return redirect('/starred-repositories');
     });
     Route::get('/followers', function (){
         // todo refactor
