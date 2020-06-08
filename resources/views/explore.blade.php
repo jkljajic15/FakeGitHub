@@ -13,6 +13,11 @@
                             @foreach($repositories as $repository)
 
                                 <li class="list-group-item list-group-item-action">
+
+                                    <a href="profile/{{$repository->user->id}}">
+                                        {{$repository->user->name}}
+                                    </a>
+                                    /
                                     <a href="repositories/{{$repository->id}}">
                                         {{$repository->name}}
                                     </a>

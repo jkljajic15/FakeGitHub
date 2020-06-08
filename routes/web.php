@@ -71,6 +71,10 @@ Route::group(['middleware' => ['auth']], function (){
         ]);
         return redirect("/issues/". request('issue_id'));
     });
+
+    Route::get('profile/{id}','UserController@show');
+    Route::post('profile/{id}','UserController@store');
+    Route::delete('profile/{id}','UserController@destroy');
 });
 
 Auth::routes();

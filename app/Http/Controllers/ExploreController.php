@@ -12,7 +12,7 @@ class ExploreController extends Controller
 {
     public function index()
     {
-        $repositories = Repository::all()->where('user_id', '!=', Auth::id());
+        $repositories = Repository::with('user')->where('user_id', '!=', Auth::id())->get();
 
         return view('explore', [
             'repositories' => $repositories,
