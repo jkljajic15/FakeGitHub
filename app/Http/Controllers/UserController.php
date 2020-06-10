@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Followee;
 use App\Follower;
+use App\Notifications\FollowedByUserNotification;
 use App\Repository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
@@ -32,6 +34,8 @@ class UserController extends Controller
            'follower_id' => Auth::id()
         ]);
 
+        $userToNotify = User::find($id);
+        $userToNotify->notify(new FollowedByUserNotification(Auth::user()->name));
         return redirect("/profile/$id");
     }
 
