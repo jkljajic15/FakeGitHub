@@ -33,10 +33,10 @@ class UserController extends Controller
            'user_id' => $id,
            'follower_id' => Auth::id()
         ]);
-
+        $userThatFollowed = User::find(Auth::user());
         $userToNotify = User::find($id);
-        $userToNotify->notify(new FollowedByUserNotification(Auth::user()->name));
-        return redirect("/profile/$id");
+        $userToNotify->notify(new FollowedByUserNotification($userThatFollowed)); // Auth::user()
+        return redirect()->back();
     }
 
     public function destroy($id){
@@ -50,5 +50,10 @@ class UserController extends Controller
 
     protected static function followeeids(){
         return Followee::all()->where('user_id', Auth::id())->pluck('followee_id')->toArray();
+    }
+
+    public function markRead($id){
+        Auth::user()->unreadNotifications()->where('id',$id)->get()->markAsRead();
+        return redirect()->back();
     }
 }

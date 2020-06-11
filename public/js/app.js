@@ -1918,6 +1918,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NotificationBell"
 });
@@ -37475,14 +37482,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c("li", { staticClass: "nav-link " }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link ",
-          attrs: { href: "#", role: "button", "data-toggle": "dropdown" }
-        },
-        [_c("i", { staticClass: "far fa-bell" })]
-      )
+      _c("a", {
+        staticClass: "nav-link ",
+        attrs: { href: "#", role: "button", "data-toggle": "dropdown" }
+      })
     ])
   }
 ];

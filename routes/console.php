@@ -1,7 +1,10 @@
 <?php
 
+use App\Notifications\FollowedByUserNotification;
+use App\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -32,6 +35,8 @@ Artisan::command('dodaj', function (){
 
 //    factory(\App\Issue::class,2)->create();
 //    factory(\App\Issue_Comment::class,3)->create();
+
+
 });
 
 Artisan::command('ispisi', function (){
@@ -42,5 +47,19 @@ Artisan::command('ispisi', function (){
 //    $select = DB::select('select * from starred_repositories where user_id = ?',[6]);
 
 //    dd($select);
-//dd(\Illuminate\Support\Facades\Auth::id());
+//dd(\Illuminate\Support\Facades\Auth::id()); // null
+    $user = App\User::find(6);
+    dd($user->unreadNotifications ? 'true': 'false');
+    $user->unreadNotifications()->dd();
+//    $user->notify(new \App\Notifications\FollowedByUserNotification('ime usera'));
+
+
+});
+
+Artisan::command('zaprati-admina', function (){
+
+    $userThatFollowed = factory(User::class)->create();
+    $userToNotify = User::find(6); //admin id = 6
+    $userToNotify->notify(new FollowedByUserNotification($userThatFollowed));
+
 });

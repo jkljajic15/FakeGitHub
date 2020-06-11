@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 class FollowedByUserNotification extends Notification
 {
     use Queueable;
-    private $user_name;
+    private $user;
 
 
     /**
@@ -18,10 +18,10 @@ class FollowedByUserNotification extends Notification
      *
      * @param $username
      */
-    public function __construct($user_name)
+    public function __construct($user)
     {
 
-        $this->user_name = $user_name;
+        $this->user = $user;
     }
 
     /**
@@ -59,7 +59,8 @@ class FollowedByUserNotification extends Notification
     {
 
         return [
-            'user_name' => $this->user_name
+            'id' => $this->user->id,
+            'name' => $this->user->name
         ];
     }
 }

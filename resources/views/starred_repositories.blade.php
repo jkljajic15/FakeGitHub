@@ -7,7 +7,7 @@
                     <div class="card-header">Starred repositories</div>
 
                     <div class="card-body">
-
+{{--                        {{dd(Auth::user()->notifications)}}--}}
                         <ul class="list-group ">
 {{--                            {{ //dd($repositories) }}--}}
 

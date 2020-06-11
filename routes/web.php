@@ -19,11 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::group(['middleware' => ['auth']], function (){
+    Route::get('/','RepositoryController@index')->name('home');
     Route::resource('repositories','RepositoryController');
     Route::get('/explore','ExploreController@index');
     Route::post('/explore/{repository}','ExploreController@store');
@@ -42,7 +40,7 @@ Route::group(['middleware' => ['auth']], function (){
         return redirect('/starred-repositories');
     });
     Route::get('/followers', function (){
-        // todo refactor
+        // todo refactor move to userContr
         $user = User::find(Auth::id());
         $followers = [];
         foreach ($user->followers as $follower){
@@ -52,7 +50,7 @@ Route::group(['middleware' => ['auth']], function (){
         return view('followers', ['followers' => $followers]);
     });
     Route::get('/following', function (){
-        //todo refactor
+        //todo refactor move to userContr
         $user = User::find(Auth::id());
         $followees = [];
         foreach ($user->followees as $followee){
@@ -75,8 +73,8 @@ Route::group(['middleware' => ['auth']], function (){
     Route::get('profile/{id}','UserController@show');
     Route::post('profile/{id}','UserController@store');
     Route::delete('profile/{id}','UserController@destroy');
+    Route::get('/mark-as-read/{notification}', 'UserController@markRead')->name('markAsRead');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home'); //todo fix
