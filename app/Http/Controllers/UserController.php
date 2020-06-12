@@ -52,7 +52,7 @@ class UserController extends Controller
         Followee::where('followee_id', $id)->where('user_id',Auth::id())->delete();
         Follower::where('follower_id', Auth::id())->where('user_id', $id)->delete();
 
-        return redirect("/profile/$id");
+        return redirect()->back();
 
     }
 

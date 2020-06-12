@@ -13,7 +13,7 @@
                                     <a href="profile/{{$user->id}}">
                                         {{$user->name}}
                                     </a>
-{{--                                    @include('follow-button')--}}
+                                    @include('follow-button')
                                 </li>
                             @endforeach
                         </ul>
