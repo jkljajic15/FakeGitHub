@@ -13,13 +13,20 @@ use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
+    public function myProfile(){
+
+        return view('profile', [
+            'user' => Auth::user(),
+            'repositories' => Repository::all()->where('user_id', Auth::id())
+        ]);
+    }
     public function show($id){
 
         $repositories = Repository::all()->where('user_id',$id);
         return view('profile',[
             'user' => User::find($id),
             'repositories' => $repositories,
-            'followeeids' => self::followeeids()
+            'followeeIds' => self::followeeIds()
             ]);
     }
 
@@ -48,7 +55,34 @@ class UserController extends Controller
 
     }
 
-    protected static function followeeids(){
+    public function getFollowers(){
+        $user = User::find(Auth::id());
+        $followers = [];
+        foreach ($user->followers as $follower){
+            array_push($followers, User::find($follower->follower_id));
+        }
+
+        return view('followers', [
+            'users' => $followers,
+            'followeeIds' => self::followeeIds()
+        ]);
+    }
+
+
+    public function getFollowees(){
+        $user = User::find(Auth::id());
+        $followees = [];
+        foreach ($user->followees as $followee){
+            array_push($followees, User::find($followee->followee_id));
+        }
+
+        return view('following', [
+            'users' => $followees,
+            'followeeIds' => self::followeeIds()
+        ]);
+    }
+
+    protected static function followeeIds(){
         return Followee::all()->where('user_id', Auth::id())->pluck('followee_id')->toArray();
     }
 
@@ -56,4 +90,6 @@ class UserController extends Controller
         Auth::user()->unreadNotifications()->where('id',$id)->get()->markAsRead();
         return redirect()->back();
     }
+
+
 }

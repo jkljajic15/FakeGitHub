@@ -38,6 +38,9 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="/profile">My Profile</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/repositories">My Repositories</a>
                     </li>
                     <li class="nav-item">
@@ -71,33 +74,7 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item dropdown">
-
-                            <a id="navbarDropdown" class="nav-link " href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false" v-pre>
-                                <i class="{{Auth::user()->unreadNotifications->isEmpty() ? 'far fa-bell': 'fas fa-bell'}}"></i>
-                            </a>
-
-                            @if(Auth::user()->unreadNotifications)
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @foreach(Auth::user()->unreadNotifications as $notification)
-                                        <li class="dropdown-item d-flex justify-content-between">
-                                            <span class=" text-muted ">
-                                                You have a new follower <a
-                                                    href="/profile/{{$notification->data['id']}}">{{$notification->data['name']}}</a>
-
-                                            </span>
-
-                                            <a class="text-muted ml-4" href="{{route('markAsRead',$notification->id)}}">
-
-                                                <i class="fas fa-times"></i>
-                                            </a>
-
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </li>
+                        @include('notification-bell')
                         <li class="nav-item dropdown">
 
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -125,8 +102,6 @@
     </nav>
 
     <main class="py-4">
-        <notification-bell></notification-bell>
-
         @yield('content')
     </main>
 </div>

@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth']], function (){
     Route::get('/','RepositoryController@index')->name('home');
     Route::resource('repositories','RepositoryController');
+
     Route::get('/explore','ExploreController@index');
     Route::post('/explore/{repository}','ExploreController@store');
     Route::delete('/explore/{repository}','ExploreController@destroy');
+
     Route::get('/starred-repositories', function (){
         $user = User::find(Auth::id());
         return view('starred_repositories', [
@@ -39,26 +41,9 @@ Route::group(['middleware' => ['auth']], function (){
             ->delete();
         return redirect('/starred-repositories');
     });
-    Route::get('/followers', function (){
-        // todo refactor move to userContr
-        $user = User::find(Auth::id());
-        $followers = [];
-        foreach ($user->followers as $follower){
-            array_push($followers, User::find($follower->follower_id));
-        }
 
-        return view('followers', ['followers' => $followers]);
-    });
-    Route::get('/following', function (){
-        //todo refactor move to userContr
-        $user = User::find(Auth::id());
-        $followees = [];
-        foreach ($user->followees as $followee){
-            array_push($followees, User::find($followee->followee_id));
-        }
 
-        return view('/following', ['followees' => $followees]);
-    });
+
     Route::resource('repositories.issues', 'IssueController')->shallow()->only(['index', 'create', 'store', 'show', 'update']);
     Route::post('/issue-comments', function (){
         request()->validate(['body' => 'required']);
@@ -70,6 +55,9 @@ Route::group(['middleware' => ['auth']], function (){
         return redirect("/issues/". request('issue_id'));
     });
 
+    Route::get('profile','UserController@myProfile');
+    Route::get('/followers','UserController@getFollowers');
+    Route::get('/following','UserController@getFollowees');
     Route::get('profile/{id}','UserController@show');
     Route::post('profile/{id}','UserController@store');
     Route::delete('profile/{id}','UserController@destroy');
