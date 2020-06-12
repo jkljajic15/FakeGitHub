@@ -22,7 +22,7 @@ class RepositoryController extends Controller
      */
     public function index()
     {
-        $repositories = Repository::all();
+        $repositories = Repository::simplePaginate(4);
         return view('Repositories.index', ['repositories' => $repositories]);
     }
 

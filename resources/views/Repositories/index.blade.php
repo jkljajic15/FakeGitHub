@@ -25,16 +25,24 @@
                                             {{$repository->description}}
                                         </p>
 
-                                        {{--todo  pagination--}}
                                     </li>
                                 @endif
                             @endforeach
                         </ul>
-                        <div class=" mt-2">
-                            <a name="" id="" class="btn btn-primary" href="/repositories/create" role="button">Add new
-                                Repository</a>
+                        <div class="d-flex mt-2">
+                            <div>
+
+                                <a class="btn btn-primary" href="/repositories/create" role="button">Add new
+                                    Repository</a>
+                            </div>
+                            <div class=" ml-auto mr-4">
+                                {{ $repositories->links() }}
+                            </div>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>

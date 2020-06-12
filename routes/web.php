@@ -30,8 +30,9 @@ Route::group(['middleware' => ['auth']], function (){
 
     Route::get('/starred-repositories', function (){
         $user = User::find(Auth::id());
+        $repositories = $user->starredRepositories()->simplePaginate(3);
         return view('starred_repositories', [
-            'repositories' => $user->starredRepositories
+            'repositories' => $repositories
         ]);
     });
     Route::delete('/starred-repositories/{repository}', function (Repository $repository){

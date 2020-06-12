@@ -12,7 +12,7 @@ class ExploreController extends Controller
 {
     public function index()
     {
-        $repositories = Repository::with('user')->where('user_id', '!=', Auth::id())->get();
+        $repositories = Repository::with('user')->where('user_id', '!=', Auth::id())->simplePaginate(3);
 
         return view('explore', [
             'repositories' => $repositories,
@@ -28,7 +28,7 @@ class ExploreController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        return redirect('/explore');
+        return redirect()->back();
     }
 
     public function destroy(Repository $repository)
@@ -37,7 +37,8 @@ class ExploreController extends Controller
             ->where('repository_id', $repository->id)
             ->where('user_id', Auth::id())
             ->delete();
-        return redirect('/explore');
+
+        return redirect()->back();
     }
 
     /**
@@ -57,5 +58,7 @@ class ExploreController extends Controller
             }
         }
         return $user_starred_repository_ids;
+
+        //todo relationships or eagerloading ?
     }
 }
