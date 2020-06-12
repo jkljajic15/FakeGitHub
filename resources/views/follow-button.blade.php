@@ -1,3 +1,4 @@
+
 @if(!in_array($user->id,$followeeIds))
     <form action="/profile/{{$user->id}}" method="post">
         @csrf

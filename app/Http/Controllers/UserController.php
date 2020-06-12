@@ -40,7 +40,8 @@ class UserController extends Controller
            'user_id' => $id,
            'follower_id' => Auth::id()
         ]);
-        $userThatFollowed = User::find(Auth::user());
+
+        $userThatFollowed = User::find(Auth::id());
         $userToNotify = User::find($id);
         $userToNotify->notify(new FollowedByUserNotification($userThatFollowed)); // Auth::user()
         return redirect()->back();
