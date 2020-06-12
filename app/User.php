@@ -41,13 +41,13 @@ class User extends Authenticatable
         return $this->hasMany(Repository::class);
     }
 
-    public function starredRepositories(){
+    public function repositoriesStarredByUser(){
         return $this->belongsToMany(Repository::class,
             'starred_repositories', 'user_id', 'repository_id');
     }
 
     public function followers(){
-        return $this->hasMany(Follower::class);
+        return $this->hasMany(Follower::class); //todo fix belongs to many? attach detach
     }
 
     public function followees(){

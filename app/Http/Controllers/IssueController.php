@@ -18,7 +18,7 @@ class IssueController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Factory|View
+     * @return View
      */
     public function index($id)
     {
@@ -31,7 +31,7 @@ class IssueController extends Controller
      * Show the form for creating a new resource.
      *
      * @param $id
-     * @return Factory|View
+     * @return View
      */
     public function create($id)
     {
@@ -43,7 +43,7 @@ class IssueController extends Controller
      *
      * @param Request $request
      * @param $id
-     * @return RedirectResponse|Redirector
+     * @return RedirectResponse
      */
     public function store(Request $request,$id)
     {
@@ -68,7 +68,7 @@ class IssueController extends Controller
      * Display the specified resource.
      *
      * @param Issue $issue
-     * @return Factory|View
+     * @return View
      */
     public function show(Issue $issue)
     {
@@ -79,5 +79,15 @@ class IssueController extends Controller
     public function update(Issue $issue){
         Issue::where('id' , $issue->id)->update(['status' => 'closed']);
         return redirect("/repositories/$issue->repository_id/issues");
+    }
+
+    public function storeComment(){
+        request()->validate(['body' => 'required']);
+        Issue_Comment::create([
+            'user_id' => Auth::id(),
+            'issue_id'=> request('issue_id'),
+            'body' => request('body')
+        ]);
+        return redirect("/issues/". request('issue_id'));
     }
 }

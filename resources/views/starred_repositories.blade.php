@@ -16,7 +16,7 @@
 
                                 <li class="list-group-item list-group-item-action">
                                     <a href="">{{$repository->name}}</a>
-                                    <form action="/starred-repositories/{{$repository->id}}" method="post">
+                                    <form action="{{route('remove-star',$repository)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button class="btn float-right"

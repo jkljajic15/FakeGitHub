@@ -12,7 +12,7 @@ class Repository extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function starredRepositories(){
+    public function usersThatStarredARepository(){
         return $this->belongsToMany(User::class, 'starred_repositories');
     }
 }

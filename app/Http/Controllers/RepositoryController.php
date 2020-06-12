@@ -18,7 +18,7 @@ class RepositoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Factory|View
+     * @return View
      */
     public function index()
     {
@@ -29,7 +29,7 @@ class RepositoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Factory|View
+     * @return View
      */
     public function create()
     {
@@ -40,7 +40,7 @@ class RepositoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param RepositoryRequest $request
-     * @return RedirectResponse|Redirector
+     * @return RedirectResponse
      */
     public function store(RepositoryRequest $request)
     {
@@ -52,7 +52,7 @@ class RepositoryController extends Controller
      * Display the specified resource.
      *
      * @param  Repository  $repository
-     * @return Factory|View
+     * @return View
      */
     public function show(Repository $repository)
     {
@@ -95,4 +95,40 @@ class RepositoryController extends Controller
         $repository->destroy($repository->id);
         return redirect('/repositories');
     }
+
+    public function explore(){
+        $repositories = Repository::with('user')->where('user_id', '!=', Auth::id())->simplePaginate(3);
+
+        return view('explore', [
+            'repositories' => $repositories,
+            'user_starred_repository_ids' => $this->repository_ids()
+        ]);
+    }
+
+    public function starred(){
+        return view('starred_repositories', [
+            'repositories' => Auth::user()->repositoriesStarredByUser()->simplePaginate(3)
+        ]);
+    }
+
+    public function addStar(Repository $repository){
+        $repository->usersThatStarredARepository()->attach(Auth::id());
+
+        return redirect()->back();
+    }
+
+    public function removeStar(Repository $repository){
+        $repository->usersThatStarredARepository()->detach(Auth::id());
+
+        return redirect()->back();
+    }
+
+    /**
+     * @return array
+     */
+    public function repository_ids(): array
+    {
+        return Auth::user()->repositoriesStarredByUser->pluck('id')->toArray();
+    }
+
 }

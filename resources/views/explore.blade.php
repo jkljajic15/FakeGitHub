@@ -24,7 +24,7 @@
 
 
                                     @if(in_array($repository->id,$user_starred_repository_ids))
-                                        <form action="/explore/{{$repository->id}}" method="post">
+                                        <form action="{{route('remove-star',$repository)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button class="btn   float-right"
@@ -34,12 +34,12 @@
                                             </button>
                                         </form>
                                     @else
-                                        <form action="/explore/{{$repository->id}}" method="post">
+                                        <form action="{{route('add-star',$repository)}}" method="post">
                                             @csrf
-                                            <button class="btn    float-right"
-                                                    type="submit">
+                                            <button
+                                                class="btn float-right"
+                                                type="submit">
                                                 <i class="far fa-star"></i>
-
                                             </button>
                                         </form>
                                     @endif

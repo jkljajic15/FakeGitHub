@@ -22,39 +22,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function (){
     Route::get('/','RepositoryController@index')->name('home');
+    Route::get('/starred-repositories','RepositoryController@starred');
+    Route::get('/explore','RepositoryController@explore');
+    Route::post('/add-star/{repository}','RepositoryController@addStar')->name('add-star');
+    Route::delete('/remove-star/{repository}','RepositoryController@removeStar')->name('remove-star');
     Route::resource('repositories','RepositoryController');
 
-    Route::get('/explore','ExploreController@index');
-    Route::post('/explore/{repository}','ExploreController@store');
-    Route::delete('/explore/{repository}','ExploreController@destroy');
-
-    Route::get('/starred-repositories', function (){
-        $user = User::find(Auth::id());
-        $repositories = $user->starredRepositories()->simplePaginate(3);
-        return view('starred_repositories', [
-            'repositories' => $repositories
-        ]);
-    });
-    Route::delete('/starred-repositories/{repository}', function (Repository $repository){
-        DB::table('starred_repositories')
-            ->where('repository_id', $repository->id)
-            ->where('user_id', Auth::id())
-            ->delete();
-        return redirect('/starred-repositories');
-    });
-
-
-
     Route::resource('repositories.issues', 'IssueController')->shallow()->only(['index', 'create', 'store', 'show', 'update']);
-    Route::post('/issue-comments', function (){
-        request()->validate(['body' => 'required']);
-        Issue_Comment::create([
-            'user_id' => Auth::id(),
-            'issue_id'=> request('issue_id'),
-            'body' => request('body')
-        ]);
-        return redirect("/issues/". request('issue_id'));
-    });
+    Route::post('/issue-comments','IssueController@storeComment');
 
     Route::get('profile','UserController@myProfile');
     Route::get('/followers','UserController@getFollowers');
