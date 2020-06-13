@@ -11,3 +11,7 @@
         <span><button class="btn btn-primary float-right" type="submit">Unfollow</button></span>
     </form>
 @endif
+
+
+{{-- !in_array($user->id,$followeeIds) --}}
+{{-- !isFollowing($user->id, $followeeIds) --}}

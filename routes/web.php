@@ -38,6 +38,11 @@ Route::group(['middleware' => ['auth']], function (){
     Route::post('profile/{id}','UserController@store');
     Route::delete('profile/{id}','UserController@destroy');
     Route::get('/mark-as-read/{notification}', 'UserController@markRead')->name('markAsRead');
+
+
+
+    Route::post('/profile', 'UserController@storeImage');
+
 });
 
 Auth::routes();

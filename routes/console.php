@@ -48,9 +48,9 @@ Artisan::command('ispisi', function (){
 
 //    dd($select);
 //dd(\Illuminate\Support\Facades\Auth::id()); // null
-    $user = App\User::find(6);
-    dd($user->unreadNotifications ? 'true': 'false');
-    $user->unreadNotifications()->dd();
+//    $user = App\User::find(6);
+//    dd($user->unreadNotifications ? 'true': 'false');
+//    $user->unreadNotifications()->dd();
 //    $user->notify(new \App\Notifications\FollowedByUserNotification('ime usera'));
 
 

@@ -20,6 +20,8 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('notification-bell', require('./components/NotificationBell.vue').default);
+Vue.component('v-button', require('./components/VButton').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

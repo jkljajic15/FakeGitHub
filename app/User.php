@@ -47,7 +47,7 @@ class User extends Authenticatable
     }
 
     public function followers(){
-        return $this->hasMany(Follower::class); //todo fix belongs to many? attach detach
+        return $this->hasMany(Follower::class);
     }
 
     public function followees(){

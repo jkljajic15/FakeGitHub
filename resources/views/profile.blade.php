@@ -5,19 +5,21 @@
         <div class="row">
             <div class="col-4 ">
                 <div class="d-flex justify-content-center">
-                    {{--                todo profile pic --}}
                     <img
                         class="img-thumbnail"
-                        src="https://media.geeksforgeeks.org/wp-content/uploads/20190506164011/logo3.png"
-                        alt="">
+                        src="{{ asset('images/'. $user->avatar) }}"
+                        style="height: 250px; width: 250px;"
+                        alt="avatar">
                 </div>
                 <div class="d-flex justify-content-center m-3">
                     <p class="h5">{{$user->name}}</p>
                 </div>
                 <div class="d-flex justify-content-center">
                     @if($user->id == Auth::id())
-{{--                        todo change pic--}}
+
+                        <v-button></v-button>
                     @else
+
                         @include('follow-button')
                     @endif
                 </div>

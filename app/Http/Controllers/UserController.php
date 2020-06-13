@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -26,7 +27,7 @@ class UserController extends Controller
         return view('profile',[
             'user' => User::find($id),
             'repositories' => $repositories,
-            'followeeIds' => self::followeeIds()
+            'followeeIds' => self::followeeIds() // ?
             ]);
     }
 
@@ -57,34 +58,23 @@ class UserController extends Controller
     }
 
     public function getFollowers(){
-        $user = User::find(Auth::id());
-        $followers = [];
-        foreach ($user->followers as $follower){
-            array_push($followers, User::find($follower->follower_id));
-        }
-
         return view('followers', [
-            'users' => $followers,
+            'users' => $this->followers(),
             'followeeIds' => self::followeeIds()
         ]);
     }
 
 
     public function getFollowees(){
-        $user = User::find(Auth::id());
-        $followees = [];
-        foreach ($user->followees as $followee){
-            array_push($followees, User::find($followee->followee_id));
-        }
 
         return view('following', [
-            'users' => $followees,
+            'users' => $this->followees(),
             'followeeIds' => self::followeeIds()
         ]);
     }
 
     protected static function followeeIds(){
-        return Followee::all()->where('user_id', Auth::id())->pluck('followee_id')->toArray();
+        return Auth::user()->followees->pluck('followee_id')->toArray();
     }
 
     public function markRead($id){
@@ -92,5 +82,42 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * followers for auth user
+     * @return array
+     */
+    public function followers(): array
+    {
+        $followers = [];
+        foreach (Auth::user()->followers as $follower) {
+            array_push($followers, User::find($follower->follower_id));
+        }
+        return $followers;
+    }
+
+    /**
+     * followees for auth user
+     * @return mixed
+     */
+    public function followees()
+    {
+        $followees = [];
+        foreach (Auth::user()->followees as $followee) {
+            array_push($followees, User::find($followee->followee_id));
+        }
+        return $followees;
+    }
+
+    public function storeImage(Request $request)
+    {
+
+        $request->validate(['image' => 'mimes:jpeg,jpg,png,gif|required|max:10000']);
+//        Storage::delete('/public/images/' . Auth::user()->avatar);
+        $imageName = $request->image->getClientOriginalName();
+        $request->image->storeAs('images', $imageName, 'public');
+        Auth::user()->avatar = $imageName;
+        Auth::user()->save();
+
+    }
 
 }
