@@ -1,5 +1,11 @@
 <?php
 
+use App\Followee;
+use App\Follower;
+use App\Issue;
+use App\Issue_Comment;
+use App\Repository;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        factory(User::class, 10)->create();
+        factory(Repository::class, 20)->create();
+        factory(Issue::class, 20)->create();
+        factory(Issue_Comment::class, 40)->create();
+        factory(Follower::class, 10)->create();
+        factory(Followee::class, 10)->create();
+
     }
 }

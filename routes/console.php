@@ -58,8 +58,8 @@ Artisan::command('ispisi', function (){
 
 Artisan::command('zaprati-admina', function (){
 
-    $userThatFollowed = factory(User::class)->create();
-    $userToNotify = User::find(6); //admin id = 6
+    $userThatFollowed = User::all()->random();
+    $userToNotify = User::find(1); //admin id = 1
     $userToNotify->notify(new FollowedByUserNotification($userThatFollowed));
 
 });

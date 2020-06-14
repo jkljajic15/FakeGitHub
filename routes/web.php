@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function (){
     Route::get('/','RepositoryController@index')->name('home');
+    Route::get('/home','RepositoryController@index')->name('home');
     Route::get('/starred-repositories','RepositoryController@starred');
     Route::get('/explore','RepositoryController@explore');
     Route::post('/add-star/{repository}','RepositoryController@addStar')->name('add-star');

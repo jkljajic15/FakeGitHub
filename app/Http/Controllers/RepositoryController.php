@@ -44,7 +44,11 @@ class RepositoryController extends Controller
      */
     public function store(RepositoryRequest $request)
     {
-        Repository::create($request->only(['name','description','user_id']));
+        Repository::create([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
         return redirect('/repositories');
     }
 

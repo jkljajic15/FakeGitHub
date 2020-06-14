@@ -12,10 +12,10 @@
                         </div>
                         <ul class="list-group ">
 
-                            @foreach($repositories as $repository)
+                            @forelse($repositories as $repository)
 
                                 <li class="list-group-item list-group-item-action">
-                                    <a href="">{{$repository->name}}</a>
+                                    <a href="/repositories/{{$repository->id}}">{{$repository->name}}</a>
                                     <form action="{{route('remove-star',$repository)}}" method="post">
                                         @csrf
                                         @method('delete')
@@ -29,7 +29,11 @@
                                         {{$repository->description}}
                                     </p>
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="list-group-item">
+                                    You have not starred any repositories.
+                                </li>
+                            @endforelse
                         </ul>
                     </div>
                     <div class=" ml-auto mr-4">

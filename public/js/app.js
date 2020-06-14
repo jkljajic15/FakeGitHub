@@ -1915,6 +1915,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VButton",
   data: function data() {
@@ -1928,9 +1929,11 @@ __webpack_require__.r(__webpack_exports__);
       var fd = new FormData();
       fd.append('image', this.selectedFile);
       axios.post('/profile', fd).then(function (response) {
-        console.log(response);
+        // console.log(response.errors);
         window.location.replace('/profile');
-      });
+      }); // .catch(function(error){
+      //     console.log(error.message)
+      // })
     }
   }
 });

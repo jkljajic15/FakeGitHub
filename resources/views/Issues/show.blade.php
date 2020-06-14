@@ -20,35 +20,39 @@
                     </div>
                     <div class="card-body ">
                         <p>{{$issue->body}}</p>
-
-
                     </div>
                 </div>
 
-                {{--  comments--}}
-
-                @foreach($comments as $comment)
+                @foreach($issue->comments as $comment)
 
                     <div class="card m-3">
-                        <div class="card-header">{{$comment['user']['name']}}
-                            <small
-                                class="text-muted float-right">{{ \Carbon\Carbon::parse($comment['created_at'])->format('H:i d/m/y') }}</small>
+                        <div class="card-header">
+                            {{$comment->user->name}}
+                            <small class="text-muted float-right">
+                                {{ \Carbon\Carbon::parse($comment->created_at)->format('H:i d/m/y') }}
+                            </small>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">{{$comment['body']}}</p>
+                            <p class="card-text">{{$comment->body}}</p>
                         </div>
                     </div>
                 @endforeach
                 @if($issue->status == 'open')
-                    {{--todo axios--}}
                     <form action="/issue-comments" method="post">
                         @csrf
                         <div class="form-group">
-                        <textarea class="form-control mt-3" name="body" id="" rows="3" required
-                                  placeholder="Leave a comment..."></textarea>
+                            <textarea class="form-control mt-3"
+                                      name="body"
+                                      rows="3"
+                                      required
+                                      placeholder="Leave a comment..."></textarea>
                         </div>
-                        <input type="hidden" name="issue_id" value="{{$issue->id}}">
-                        <input class="btn btn-secondary float-right" type="submit" name="" id="" value="Comment">
+                        <input type="hidden"
+                               name="issue_id"
+                               value="{{$issue->id}}">
+                        <input class="btn btn-secondary float-right"
+                               type="submit"
+                               value="Comment">
                     </form>
                 @endif
             </div>

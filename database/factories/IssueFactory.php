@@ -13,7 +13,7 @@ $factory->define(Issue::class, function (Faker $faker) {
         'title' => $faker->title(),
         'body' => $faker->realText(),
         'status' => 'open',
-        'repository_id' => factory(Repository::class),
-        'user_id' => factory(User::class)
+        'repository_id' => Repository::all()->random()->id,
+        'user_id' => User::all()->random()->id
     ];
 });

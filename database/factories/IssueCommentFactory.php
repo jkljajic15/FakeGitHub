@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Issue_Comment::class, function (Faker $faker) {
     return [
-        'user_id' => factory(User::class),
-        'issue_id' => factory(Issue::class),
+        'user_id' => User::all()->random()->id,
+        'issue_id' => Issue::all()->random()->id,
         'body' => $faker->realText()
     ];
 });

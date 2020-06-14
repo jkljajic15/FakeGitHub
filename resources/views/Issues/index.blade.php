@@ -12,7 +12,7 @@
                     <div class="card-body">
 
                         <div class="list-group ">
-                            @foreach($issues as $issue)
+                            @forelse($issues as $issue)
 
                                 <a href="/issues/{{$issue->id}}" class="list-group-item list-group-item-action">
                                     <h5>{{$issue->title}}</h5>
@@ -20,7 +20,11 @@
                                         {{$issue->body}}
                                     </p>
                                 </a>
-                            @endforeach
+                                @empty
+                                <a class="list-group-item">
+                                    This repository has no issues.
+                                </a>
+                            @endforelse
                         </div>
                     </div>
                 </div>

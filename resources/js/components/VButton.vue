@@ -1,6 +1,7 @@
 <template>
     <div>
         <input type="file" @change="onFileSelected" ref="fileInput">
+<!--        <p class="text-danger"></p>-->
         <button type="button" class="btn btn-outline-dark" @click="$refs.fileInput.click()">Change Photo</button>
     </div>
 </template>
@@ -22,9 +23,14 @@
 
                 axios.post('/profile', fd)
                 .then(response =>{
-                    console.log(response);
+                    // console.log(response.errors);
                     window.location.replace('/profile')
-                });
+                })
+                // .catch(function(error){
+                //     console.log(error.message)
+                // })
+
+
 
             }
         }

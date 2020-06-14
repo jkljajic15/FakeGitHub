@@ -72,13 +72,14 @@ class IssueController extends Controller
      */
     public function show(Issue $issue)
     {
-        $comments = Issue_Comment::with(['user'])->where('issue_id' , '=' , $issue->id)->get()->toArray();
-        return view('Issues.show', ['issue' => $issue, 'comments' => $comments]);
+        $issue = $issue->with('user', 'comments')
+            ->where('id','=',$issue->id)->first();
+        return view('Issues.show', ['issue' => $issue]);
     }
 
     public function update(Issue $issue){
         Issue::where('id' , $issue->id)->update(['status' => 'closed']);
-        return redirect("/repositories/$issue->repository_id/issues");
+        return redirect()->back();
     }
 
     public function storeComment(){
@@ -88,6 +89,6 @@ class IssueController extends Controller
             'issue_id'=> request('issue_id'),
             'body' => request('body')
         ]);
-        return redirect("/issues/". request('issue_id'));
+        return redirect()->back();
     }
 }

@@ -6,7 +6,7 @@
 
     @if(Auth::user()->unreadNotifications)
         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            @foreach(Auth::user()->unreadNotifications as $notification)
+            @forelse(Auth::user()->unreadNotifications as $notification)
                 <li class="dropdown-item d-flex justify-content-between">
                     <span class=" text-muted ">
                         You have a new follower
@@ -19,7 +19,13 @@
                     </a>
 
                 </li>
-            @endforeach
+                @empty
+                <li class="dropdown-item">
+                    <small class="text-muted">
+                        No new notifications.
+                    </small>
+                </li>
+            @endforelse
         </ul>
     @endif
 </li>

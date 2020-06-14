@@ -8,14 +8,16 @@
                     <div class="card-header">Your followees</div>
                     <div class="card-body">
                         <ul class="list-group">
-                            @foreach($users as $user)
+                            @forelse($users as $user)
                                 <li class="list-group-item list-group-item-action">
                                     <a href="profile/{{$user->id}}">
                                         {{$user->name}}
                                     </a>
                                     @include('follow-button')
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="list-group-item">You are not following anyone currently.</li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
