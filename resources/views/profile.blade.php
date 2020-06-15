@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-4 ">
-                <div class="d-flex justify-content-center">
+    <div class="container ">
+        <div class="row ">
+            <div class="column col-md-4 text-center">
+                <div class="">
                     <img
-                        class="img-thumbnail"
+                        class="img-thumbnail "
                         src="{{ asset('images/'. $user->avatar) }}"
                         style="height: 250px; width: 250px;"
                         alt="avatar">
                 </div>
-                <div class="d-flex justify-content-center m-3">
+                <div>
                     <p class="h5">{{$user->name}}</p>
                 </div>
-                <div class="d-flex justify-content-center">
+                <div class="col-12 float-none">
                     @if($user->id == Auth::id())
 
                         <v-button></v-button>
@@ -23,7 +23,7 @@
                     @endif
                 </div>
             </div>
-            <div class="list-group  col-8 d-flex flex-wrap ">
+            <div class="list-group  col-md-8  flex-wrap ">
                 @forelse($repositories as $repository)
                     <div class="card col-4 m-2 ">
 

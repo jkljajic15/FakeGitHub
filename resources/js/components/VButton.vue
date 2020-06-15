@@ -1,18 +1,14 @@
 <template>
     <div>
         <input type="file" @change="onFileSelected" ref="fileInput">
-        <div class="row justify-content-center mb-2">
             <button type="button"
                     class="btn btn-outline-dark"
                     @click="$refs.fileInput.click()">
                 Change Photo
             </button>
-        </div>
-        <div class="row">
             <p class="text-danger ">
                 {{errorMessage}}
             </p>
-        </div>
     </div>
 </template>
 

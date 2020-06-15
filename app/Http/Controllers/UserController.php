@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Followee;
 use App\Follower;
+use App\Mail\newFollower;
 use App\Notifications\FollowedByUserNotification;
 use App\Repository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,9 +44,9 @@ class UserController extends Controller
            'follower_id' => Auth::id()
         ]);
 
-        $userThatFollowed = User::find(Auth::id());
-        $userToNotify = User::find($id);
-        $userToNotify->notify(new FollowedByUserNotification($userThatFollowed)); // Auth::user()
+        $this->dbNotification($id);
+        Mail::to(User::find($id))->send(new newFollower(Auth::user()->name));
+
         return redirect()->back();
     }
 
@@ -118,6 +120,16 @@ class UserController extends Controller
         Auth::user()->avatar = $imageName;
         Auth::user()->save();
 
+    }
+
+    /**
+     * @param $id
+     */
+    public function dbNotification($id): void
+    {
+        $userThatFollowed = User::find(Auth::id());
+        $userToNotify = User::find($id);
+        $userToNotify->notify(new FollowedByUserNotification($userThatFollowed));
     }
 
 }

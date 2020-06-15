@@ -36,7 +36,7 @@ Artisan::command('dodaj', function (){
 //    factory(\App\Issue::class,2)->create();
 //    factory(\App\Issue_Comment::class,3)->create();
 
-
+// \Illuminate\Support\Facades\Mail::to(User::first())->send(new \App\Mail\newFollower('test'));
 });
 
 Artisan::command('ispisi', function (){

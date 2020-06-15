@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <ul class="list-group">
                         @forelse($users as $user)
-                            <li class="list-group-item list-group-item-action">
+                            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 <a href="profile/{{$user->id}}">
                                     {{$user->name}}
                                 </a>
