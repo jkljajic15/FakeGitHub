@@ -1916,24 +1916,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VButton",
   data: function data() {
     return {
-      selectedFile: null
+      selectedFile: null,
+      errorMessage: ''
     };
   },
   methods: {
     onFileSelected: function onFileSelected(e) {
+      var vm = this;
       this.selectedFile = e.target.files[0];
       var fd = new FormData();
       fd.append('image', this.selectedFile);
       axios.post('/profile', fd).then(function (response) {
-        // console.log(response.errors);
         window.location.replace('/profile');
-      }); // .catch(function(error){
-      //     console.log(error.message)
-      // })
+      })["catch"](function (error) {
+        vm.errorMessage = error.response.data.message;
+      });
     }
   }
 });
@@ -38135,19 +38146,27 @@ var render = function() {
       on: { change: _vm.onFileSelected }
     }),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-outline-dark",
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.$refs.fileInput.click()
+    _c("div", { staticClass: "row justify-content-center mb-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-dark",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.$refs.fileInput.click()
+            }
           }
-        }
-      },
-      [_vm._v("Change Photo")]
-    )
+        },
+        [_vm._v("\n            Change Photo\n        ")]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("p", { staticClass: "text-danger " }, [
+        _vm._v("\n            " + _vm._s(_vm.errorMessage) + "\n        ")
+      ])
+    ])
   ])
 };
 var staticRenderFns = [];

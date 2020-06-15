@@ -19,18 +19,12 @@
 
                         <v-button></v-button>
                     @else
-
                         @include('follow-button')
                     @endif
                 </div>
             </div>
             <div class="list-group  col-8 d-flex flex-wrap ">
-                @if($repositories->isEmpty())
-                    <div class="alert alert-secondary m-auto">
-                        User has no repositories!
-                    </div>
-                @endif
-                @foreach($repositories as $repository)
+                @forelse($repositories as $repository)
                     <div class="card col-4 m-2 ">
 
                         <div class="card-header">
@@ -40,9 +34,12 @@
                             {{$repository->description}}
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="alert alert-secondary m-auto">
+                        User has no repositories!
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
-
 @endsection
