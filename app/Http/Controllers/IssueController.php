@@ -47,6 +47,7 @@ class IssueController extends Controller
      */
     public function store(Request $request,$id)
     {
+
         $validated = $request->validate([
             'title' => 'required',
             'body' => 'required'
@@ -56,7 +57,8 @@ class IssueController extends Controller
             'title' => $validated['title'],
             'body' => $validated['body'],
             'repository_id' => $id,
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'issue_number' => Repository::find($id)->issues->count() +1
         ]);
         $issue->save();
 
@@ -82,11 +84,11 @@ class IssueController extends Controller
         return redirect()->back();
     }
 
-    public function storeComment(){
+    public function storeComment($id){
         request()->validate(['body' => 'required']);
         Issue_Comment::create([
             'user_id' => Auth::id(),
-            'issue_id'=> request('issue_id'),
+            'issue_id'=> $id,
             'body' => request('body')
         ]);
         return redirect()->back();

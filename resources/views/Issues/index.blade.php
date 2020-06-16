@@ -15,7 +15,12 @@
                             @forelse($issues as $issue)
 
                                 <a href="/issues/{{$issue->id}}" class="list-group-item list-group-item-action">
-                                    <h5>{{$issue->title}}</h5>
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <p class="h5">{{"#$issue->issue_number $issue->title"}}</p>
+                                        <span class="badge {{$issue->status == 'open' ? 'badge-success' : 'badge-danger'}} m-2" > {{$issue->status}}</span>
+                                    </div>
                                     <p>
                                         {{$issue->body}}
                                     </p>

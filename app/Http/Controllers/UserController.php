@@ -20,16 +20,21 @@ class UserController extends Controller
 
         return view('profile', [
             'user' => Auth::user(),
-            'repositories' => Repository::all()->where('user_id', Auth::id())
+            'repositories' => Repository::where('user_id', Auth::id())->simplePaginate(4),
+            'user_starred_repository_ids' => $this->repository_ids()
         ]);
     }
     public function show($id){
 
-        $repositories = Repository::all()->where('user_id',$id);
+        $repositories = Repository::where('user_id',$id)
+            ->orderBy('stars','desc')
+            ->simplePaginate(4);
+
         return view('profile',[
             'user' => User::find($id),
             'repositories' => $repositories,
-            'followeeIds' => self::followeeIds() // ?
+            'followeeIds' => self::followeeIds(),
+            'user_starred_repository_ids' => $this->repository_ids()
             ]);
     }
 
@@ -130,6 +135,14 @@ class UserController extends Controller
         $userThatFollowed = User::find(Auth::id());
         $userToNotify = User::find($id);
         $userToNotify->notify(new FollowedByUserNotification($userThatFollowed));
+    }
+
+    /**
+     * @return array
+     */
+    public function repository_ids(): array
+    {
+        return Auth::user()->repositoriesStarredByUser->pluck('id')->toArray();
     }
 
 }

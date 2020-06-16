@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function (){
     Route::resource('repositories','RepositoryController');
 
     Route::resource('repositories.issues', 'IssueController')->shallow()->only(['index', 'create', 'store', 'show', 'update']);
-    Route::post('/issue-comments','IssueController@storeComment');
+    Route::post('/issue-comments/{id}','IssueController@storeComment');
 
     Route::get('profile','UserController@myProfile');
     Route::get('/followers','UserController@getFollowers');

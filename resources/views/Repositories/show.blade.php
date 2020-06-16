@@ -7,9 +7,14 @@
                     <div class="card-header">{{$repository->name}}</div>
                     <div class="card-body ">
                         <p>{{$repository->description}}</p>
-                        @if($repository->user_id == Auth::id())
+                    </div>
+                    @if($repository->user_id == Auth::id())
+                        <div class="card-footer d-flex justify-content-end">
+                            <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
+                                Issues
+                            </a>
                             <form action="/repositories/{{$repository->id}}/edit">
-                                <button class="btn btn-primary float-left"
+                                <button class="btn btn-primary"
                                         type="submit">
                                     Edit
                                 </button>
@@ -18,17 +23,46 @@
                                 @method('DELETE')
                                 @csrf
                                 @if($errors->any())
-                                <p class="text-danger">
-                                    {{$message}}
-                                </p>
+                                    <p class="text-danger">
+                                        {{$message}}
+                                    </p>
                                 @endif
                                 <button class="btn btn-primary ml-1"
                                         type="submit">
                                     Delete
                                 </button>
                             </form>
-                        @endif
-                    </div>
+                        </div>
+
+                    @else
+                        <div class="card-footer d-flex justify-content-end">
+                            @if(in_array($repository->id,$user_starred_repository_ids))
+                                <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
+                                    Issues
+                                </a>
+                                <form action="{{route('remove-star',$repository)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn   float-right"
+                                            type="submit">
+                                        <i class="fas fa-star"></i>
+                                        {{$repository->stars}}
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{route('add-star',$repository)}}" method="post">
+                                    @csrf
+                                    <button
+                                        class="btn float-right"
+                                        type="submit">
+                                        <i class="far fa-star"></i>
+                                        {{$repository->stars}}
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    @endif
+
                 </div>
 
             </div>

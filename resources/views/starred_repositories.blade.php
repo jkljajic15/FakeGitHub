@@ -22,12 +22,15 @@
                                         <button class="btn float-right"
                                                 type="submit">
                                             <i class="fas fa-star"></i>
-
+                                            {{$repository->stars}}
                                         </button>
                                     </form>
                                     <p>
                                         {{$repository->description}}
                                     </p>
+                                    <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
+                                        Issues
+                                    </a>
                                 </li>
                             @empty
                                 <li class="list-group-item">

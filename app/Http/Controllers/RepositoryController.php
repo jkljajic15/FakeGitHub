@@ -22,7 +22,8 @@ class RepositoryController extends Controller
      */
     public function index()
     {
-        $repositories = Repository::simplePaginate(4);
+
+        $repositories = Repository::where('user_id', Auth::id())->simplePaginate(4);
         return view('Repositories.index', ['repositories' => $repositories]);
     }
 
@@ -61,7 +62,10 @@ class RepositoryController extends Controller
     public function show(Repository $repository)
     {
 
-        return view('Repositories.show', ['repository' => $repository]);
+        return view('Repositories.show', [
+            'repository' => $repository,
+            'user_starred_repository_ids' => $this->repository_ids()
+        ]);
     }
 
     /**
@@ -101,7 +105,10 @@ class RepositoryController extends Controller
     }
 
     public function explore(){
-        $repositories = Repository::with('user')->where('user_id', '!=', Auth::id())->simplePaginate(3);
+        $repositories = Repository::with('user')
+            ->where('user_id', '!=', Auth::id())
+            ->orderBy('stars','desc')
+            ->simplePaginate(3);
 
         return view('explore', [
             'repositories' => $repositories,
@@ -117,12 +124,15 @@ class RepositoryController extends Controller
 
     public function addStar(Repository $repository){
         $repository->usersThatStarredARepository()->attach(Auth::id());
+        $repository->increment('stars');
 
         return redirect()->back();
     }
 
     public function removeStar(Repository $repository){
         $repository->usersThatStarredARepository()->detach(Auth::id());
+        $repository->decrement('stars');
+
 
         return redirect()->back();
     }
