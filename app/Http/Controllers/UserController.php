@@ -20,7 +20,7 @@ class UserController extends Controller
 
         return view('profile', [
             'user' => Auth::user(),
-            'repositories' => Repository::where('user_id', Auth::id())->simplePaginate(4),
+            'repositories' => Repository::where('user_id', Auth::id())->orderByDesc('stars')->simplePaginate(4),
             'user_starred_repository_ids' => $this->repository_ids()
         ]);
     }
