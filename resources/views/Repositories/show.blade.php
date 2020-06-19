@@ -72,7 +72,7 @@
 
                                 <button class="btn btn-primary ml-1"
                                         type="submit">
-                                    DeleteK
+                                    Delete
                                 </button>
                             </form>
 
