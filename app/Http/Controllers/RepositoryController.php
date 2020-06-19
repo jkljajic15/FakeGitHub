@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contributor;
 use App\Http\Requests\RepositoryRequest;
 use App\Repository;
 use App\User;
@@ -61,10 +62,10 @@ class RepositoryController extends Controller
      */
     public function show(Repository $repository)
     {
-
         return view('Repositories.show', [
             'repository' => $repository,
-            'user_starred_repository_ids' => $this->repository_ids()
+            'user_starred_repository_ids' => $this->repository_ids(),
+            'contributors' => $repository->contributors
         ]);
     }
 
@@ -76,7 +77,10 @@ class RepositoryController extends Controller
      */
     public function edit(Repository $repository)
     {
-        return view('Repositories.edit', ['repository' => $repository]);
+        return view('Repositories.edit', [
+            'repository' => $repository,
+            'users' => User::all()->where('id','!=', Auth::id())
+        ]);
     }
 
     /**
@@ -89,7 +93,16 @@ class RepositoryController extends Controller
     public function update(RepositoryRequest $request, Repository $repository)
     {
         $repository->update($request->only(['name','description']));
-        return redirect('/repositories');
+        if ($request->contributors){
+            foreach ($request->contributors as $contributor){
+
+                Contributor::create([
+                   'repository_id' => $repository->id,
+                   'user_id' => $contributor
+                ]);
+            }
+        }
+        return redirect('/repositories/'.$repository->id);
     }
 
     /**
@@ -144,5 +157,6 @@ class RepositoryController extends Controller
     {
         return Auth::user()->repositoriesStarredByUser->pluck('id')->toArray();
     }
+
 
 }

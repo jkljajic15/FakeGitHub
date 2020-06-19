@@ -37,6 +37,15 @@
                                 </p>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="">Add contributors</label>
+                                <select name="contributors[]" class="custom-select" multiple>
+                                    @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endforeach
+                                </select>
+                                multiple select
+                            </div>
                             <button class="btn btn-primary"
                                     type="submit">
                                 Update

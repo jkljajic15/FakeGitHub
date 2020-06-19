@@ -19,15 +19,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+    Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function (){
-    Route::get('/','RepositoryController@index')->name('home');
-    Route::get('/home','RepositoryController@index')->name('home');
+    Route::get('/','RepositoryController@index');
     Route::get('/starred-repositories','RepositoryController@starred');
     Route::get('/explore','RepositoryController@explore');
     Route::post('/add-star/{repository}','RepositoryController@addStar')->name('add-star');
     Route::delete('/remove-star/{repository}','RepositoryController@removeStar')->name('remove-star');
     Route::resource('repositories','RepositoryController');
+    Route::post('/upload-file/{repository}','FileController@store');
+    Route::delete('/remove-file/{file}','FileController@destroy');
+    Route::delete('/remove-contributor/{contributor}','ContributorController');
 
     Route::resource('repositories.issues', 'IssueController')->shallow()->only(['index', 'create', 'store', 'show', 'update']);
     Route::post('/issue-comments/{id}','IssueController@storeComment');

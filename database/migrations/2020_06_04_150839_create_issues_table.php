@@ -15,7 +15,7 @@ class CreateIssuesTable extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('repository_id')->constrained();
+            $table->foreignId('repository_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->text('body');

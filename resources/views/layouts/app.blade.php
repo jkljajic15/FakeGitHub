@@ -19,6 +19,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{--    <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">--}}
+    <script>
+        window.App = <?= json_encode(['userId' => Auth::id()]) ?>;
+    </script>
 
 </head>
 <body>

@@ -7,39 +7,91 @@
                     <div class="card-header">{{$repository->name}}</div>
                     <div class="card-body ">
                         <p>{{$repository->description}}</p>
+
+
+                        Files:
+                        <ul class="list-inline">
+                            @forelse($repository->files as $file)
+                                <li class="list-inline-item">
+
+                                    <form action="/remove-file/{{$file->id}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <a href="{{asset('storage/files/'. $file->name)}}">
+
+                                            {{$file->name}}
+                                        </a>
+                                        {{--                                        {{dd($contributors->contains('user_id', Auth::id()))}}--}}
+                                        @if($repository->user_id == Auth::id() || $contributors->contains('user_id', Auth::id()))
+                                            <button class="btn" type="submit"><i class="fas fa-trash"></i></button>
+                                        @endif
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="list-inline-item">No files.</li>
+                            @endforelse
+                        </ul>
+                        Contributors:
+                        <ul class="list-inline">
+                            @forelse($contributors as $contributor)
+                                <li class="list-inline-item">
+                                    <form action="/remove-contributor/{{$contributor->id}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <a href="/profile/{{$contributor->user->id}}">
+                                            {{$contributor->user->name}}
+                                        </a>
+                                        @if($repository->user_id == Auth::id())
+
+                                            <button class="btn" type="submit"><i class="fas fa-trash"></i></button>
+                                        @endif
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="list-inline-item">No contributors.</li>
+                            @endforelse
+                        </ul>
+
+
                     </div>
-                    @if($repository->user_id == Auth::id())
-                        <div class="card-footer d-flex justify-content-end">
+                    <div class="card-footer d-flex justify-content-end">
+                        @if($repository->user_id == Auth::id())
                             <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
                                 Issues
                             </a>
-                            <form action="/repositories/{{$repository->id}}/edit">
-                                <button class="btn btn-primary"
-                                        type="submit">
-                                    Edit
-                                </button>
-                            </form>
+
+                            @include('repositories.upload-file-button')
+
+                            <a class="btn btn-primary"
+                               href="/repositories/{{$repository->id}}/edit">
+                                Edit
+                            </a>
                             <form action="/repositories/{{$repository->id}}" method="post">
                                 @method('DELETE')
                                 @csrf
-                                @if($errors->any())
-                                    <p class="text-danger">
-                                        {{$message}}
-                                    </p>
-                                @endif
+
                                 <button class="btn btn-primary ml-1"
                                         type="submit">
-                                    Delete
+                                    DeleteK
                                 </button>
                             </form>
-                        </div>
 
-                    @else
-                        <div class="card-footer d-flex justify-content-end">
+                            @error('file')
+                            <span class="text-danger">
+                                {{$message}}
+                            </span>
+                            @enderror
+                        @else
+                            <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
+                                Issues
+                            </a>
+                            @if($contributors->contains('user_id', Auth::id()))
+                                @include('repositories.upload-file-button')
+
+                            @endif
+
                             @if(in_array($repository->id,$user_starred_repository_ids))
-                                <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
-                                    Issues
-                                </a>
+
                                 <form action="{{route('remove-star',$repository)}}" method="post">
                                     @csrf
                                     @method('delete')
@@ -60,7 +112,7 @@
                                     </button>
                                 </form>
                             @endif
-                        </div>
+                    </div>
                     @endif
 
                 </div>

@@ -15,8 +15,8 @@ class CreateIssueCommentsTable extends Migration
     {
         Schema::create('issue__comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('issue_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('issue_id')->constrained()->onDelete('cascade');
             $table->text('body');
             $table->timestamps();
         });

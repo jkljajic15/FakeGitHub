@@ -16,7 +16,7 @@ class FollowedByUserNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param $username
+     * @param $user
      */
     public function __construct($user)
     {

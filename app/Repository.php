@@ -20,4 +20,11 @@ class Repository extends Model
         return $this->belongsToMany(User::class, 'starred_repositories');
     }
 
+    public function contributors(){
+        return $this->hasMany(Contributor::class);
+    }
+
+    public function files(){
+        return $this->hasMany(File::class);
+    }
 }

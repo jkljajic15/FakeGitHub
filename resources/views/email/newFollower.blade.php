@@ -4,7 +4,7 @@
 You have a new follower {{$followerName}}!
 
 @component('mail::button', ['url' => 'http://fakegithub.test/followers'])
-Button Text
+Check it out!
 @endcomponent
 
 Thanks,<br>

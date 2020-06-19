@@ -15,8 +15,8 @@ class CreateStarredRepositories extends Migration
     {
         Schema::create('starred_repositories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('repository_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('repository_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

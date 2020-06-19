@@ -16,7 +16,7 @@ class CreateFollowees extends Migration
         Schema::create('followees', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('followee_id');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

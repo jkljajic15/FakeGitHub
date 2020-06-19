@@ -19,8 +19,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('notification-bell', require('./components/NotificationBell.vue').default);
 Vue.component('v-button', require('./components/VButton').default);
+Vue.component('v-notification', require('./components/VNotification').default);
 
 
 /**
