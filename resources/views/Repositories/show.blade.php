@@ -56,6 +56,9 @@
                     </div>
                     <div class="card-footer d-flex justify-content-end">
                         @if($repository->user_id == Auth::id())
+                            <div class="col-md-12 d-flex">
+
+
                             <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">
                                 Issues
                             </a>
@@ -75,11 +78,11 @@
                                     Delete
                                 </button>
                             </form>
-
+                            </div>
                             @error('file')
-                            <span class="text-danger">
+                            <div class="text-danger text-sm-center">
                                 {{$message}}
-                            </span>
+                            </div>
                             @enderror
                         @else
                             <a href="/repositories/{{$repository->id}}/issues" class="btn mr-auto">

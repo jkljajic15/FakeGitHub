@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewFollowerEvent;
 use App\Followee;
 use App\Follower;
 use App\Mail\newFollower;
@@ -49,10 +50,10 @@ class UserController extends Controller
            'follower_id' => Auth::id()
         ]);
 
-        // todo dispatch an event, with id?
-        // broadcast new NewFollower(User::find $id) broadcast to others
+
         $this->dbNotification($id);
-        Mail::to(User::find($id))->send(new newFollower(Auth::user()->name));
+        broadcast(new NewFollowerEvent($id))->toOthers();
+        Mail::to(User::find($id))->queue(new newFollower(Auth::user()->name));
 
         return redirect()->back();
     }
@@ -146,5 +147,6 @@ class UserController extends Controller
     {
         return Auth::user()->repositoriesStarredByUser->pluck('id')->toArray();
     }
+
 
 }

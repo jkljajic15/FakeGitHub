@@ -77,6 +77,8 @@
                             </li>
                         @endif
                     @else
+                        <v-notification></v-notification>
+
                         @include('notification-bell')
                         <li class="nav-item dropdown">
 
@@ -101,6 +103,7 @@
                     @endguest
                 </ul>
             </div>
+
         </div>
     </nav>
 

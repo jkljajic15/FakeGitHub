@@ -3,7 +3,6 @@
 @section('content')
     <div class="container ">
         <div class="row ">
-{{--            <v-notification></v-notification>--}}
             <div class=" col-md-4 text-center">
                 <div>
                     <img

@@ -44,7 +44,6 @@
                                         <option value="{{$user->id}}">{{$user->name}}</option>
                                     @endforeach
                                 </select>
-                                multiple select
                             </div>
                             <button class="btn btn-primary"
                                     type="submit">

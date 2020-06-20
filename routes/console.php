@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewFollowerEvent;
 use App\Notifications\FollowedByUserNotification;
 use App\User;
 use Illuminate\Foundation\Inspiring;
@@ -40,7 +41,9 @@ Artisan::command('dodaj', function (){
 
 //    \App\Repository::find(1)->increment('stars');
 
-    \App\Events\NewFollowerEvent::dispatch(7);
+    NewFollowerEvent::dispatch(1);
+
+//    factory(\App\StarredRepository::class)->create();
 });
 
 Artisan::command('ispisi', function (){
