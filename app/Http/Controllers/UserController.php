@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NewFollowerEvent;
 use App\Followee;
 use App\Follower;
+use App\Jobs\SendNotifications;
 use App\Mail\newFollower;
 use App\Notifications\FollowedByUserNotification;
 use App\Repository;
@@ -50,10 +51,7 @@ class UserController extends Controller
            'follower_id' => Auth::id()
         ]);
 
-        // todo job
-        $this->dbNotification($id);
-        broadcast(new NewFollowerEvent($id))->toOthers();
-        Mail::to(User::find($id))->queue(new newFollower(Auth::user()->name));
+        SendNotifications::dispatch(User::find($id),Auth::user())->onQueue('default');
 
         return redirect()->back();
     }
@@ -132,10 +130,11 @@ class UserController extends Controller
 
     /**
      * @param $id
+     * @param $authId
      */
-    public function dbNotification($id): void
+    public static function dbNotification($id,$authId): void
     {
-        $userThatFollowed = User::find(Auth::id());
+        $userThatFollowed = User::find($authId);
         $userToNotify = User::find($id);
         $userToNotify->notify(new FollowedByUserNotification($userThatFollowed));
     }

@@ -28,7 +28,9 @@
                 @forelse($repositories as $repository)
                     <div class="card col-md-5 m-2">
                         <div class="card-header">
-                            {{$repository->name}}
+                            <a href="/repositories/{{$repository->id}}" class="btn">
+                                {{$repository->name}}
+                            </a>
                         </div>
                         <div class="card-body">
                             {{$repository->description}}

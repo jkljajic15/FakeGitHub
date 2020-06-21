@@ -34,7 +34,7 @@ Artisan::command('dodaj', function (){
 
 //    NewFollowerEvent::dispatch(1);
 
-
+//    \App\Jobs\SendNotifications::dispatch(User::find(1),User::find(2));
 });
 
 Artisan::command('ispisi', function (){
