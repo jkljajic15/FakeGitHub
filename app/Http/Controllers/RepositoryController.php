@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class RepositoryController extends Controller
@@ -118,6 +119,7 @@ class RepositoryController extends Controller
     }
 
     public function explore(){
+
         $repositories = Repository::with('user')
             ->where('user_id', '!=', Auth::id())
             ->orderBy('stars','desc')
@@ -129,13 +131,27 @@ class RepositoryController extends Controller
         ]);
     }
 
+    public function search(Request $request){
+
+        $request->validate(['name' => 'required']);
+        $query = $request->name;
+        $repositories = Repository::where('name','LIKE', '%'.$query.'%')->simplePaginate(3);
+
+        return view('explore', [
+            'repositories' => $repositories,
+            'user_starred_repository_ids' => $this->repository_ids()
+        ]);
+    }
+
     public function starred(){
+
         return view('starred_repositories', [
             'repositories' => Auth::user()->repositoriesStarredByUser()->simplePaginate(3)
         ]);
     }
 
     public function addStar(Repository $repository){
+
         $repository->usersThatStarredARepository()->attach(Auth::id());
         $repository->increment('stars');
 

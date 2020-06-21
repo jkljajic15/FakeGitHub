@@ -50,7 +50,7 @@ class UserController extends Controller
            'follower_id' => Auth::id()
         ]);
 
-
+        // todo job
         $this->dbNotification($id);
         broadcast(new NewFollowerEvent($id))->toOthers();
         Mail::to(User::find($id))->queue(new newFollower(Auth::user()->name));

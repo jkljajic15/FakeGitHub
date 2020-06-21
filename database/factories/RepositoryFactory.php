@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Repository::class, function (Faker $faker) {
     return [
-        'name' => 'Repo'.$faker->randomNumber(),
+        'name' => $faker->word(),
         'description' => $faker->paragraph(3, true),
-        'user_id' => User::all()->random()->id // User::all->random->id
+        'user_id' => User::all()->random()->id
     ];
 });

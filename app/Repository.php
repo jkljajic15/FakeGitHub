@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Repository extends Model
 {
-    protected $fillable = ['name', 'description','user_id'];
+    protected $guarded = [];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -18,6 +18,10 @@ class Repository extends Model
 
     public function usersThatStarredARepository(){
         return $this->belongsToMany(User::class, 'starred_repositories');
+    }
+
+    public function starredRepositories(){
+        return $this->hasMany(StarredRepository::class);
     }
 
     public function contributors(){
