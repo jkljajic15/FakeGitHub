@@ -12,3 +12,4 @@ Kopija guthuba. Korisnik moze da stavi zvezdicu na repo, da zaprati korisnika, d
 - broadcast notifikacija (vue i axios)
 - async job (queue:work / nohup)
 - db factories, seeders
+- download btn for contributors
