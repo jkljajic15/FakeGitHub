@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth']], function (){
 
     Route::post('/profile', 'UserController@storeImage');
 
+    Route::get('/file-download', 'RepositoryController@download')->name('download');
+
 });
 
 Auth::routes();

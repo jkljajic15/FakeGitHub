@@ -90,6 +90,9 @@
                             </a>
                             @if($contributors->contains('user_id', Auth::id()))
                                 @include('repositories.upload-file-button')
+                                <a class="btn btn-primary" href="/file-download">
+                                    Download
+                                </a>
 
                             @endif
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contributor;
+use App\File;
 use App\Http\Requests\RepositoryRequest;
 use App\Repository;
 use App\User;
@@ -13,6 +14,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class RepositoryController extends Controller
@@ -174,5 +176,32 @@ class RepositoryController extends Controller
         return Auth::user()->repositoriesStarredByUser->pluck('id')->toArray();
     }
 
+    public function download(){
+
+        $zip = new \ZipArchive();
+        $zip_file = 'files.zip';
+
+        $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+        $path = storage_path('app/public/files');
+        $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+
+
+        foreach($files as $file){
+
+            if (!$file->isDir()) {
+
+                $filePath = $file->getRealPath();
+
+                $relativePath = 'files/' . substr($filePath, strlen($path) + 1);
+
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+
+        $zip->close();
+
+        return response()->download($zip_file);
+    }
 
 }
